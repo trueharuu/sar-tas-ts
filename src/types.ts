@@ -1,0 +1,1 @@
+export type Stringify<T extends bigint | boolean | number | string | null | undefined> = T | `${T}`
