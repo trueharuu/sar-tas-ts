@@ -90,14 +90,54 @@ export namespace Tool {
     return new Tool('setang', [pitch, yaw]);
   }
 
+  export function autoaim(x: number, y: number, z: number, time?: number) {
+    if (time) {
+      return new Tool('autoaim', [x, y, z, time])
+    }
+
+    return new Tool('autoaim', [x, y, z]);
+  }
+
+  export function autoaimEnt(name: string, time?: number) {
+    if (time) {
+      return new Tool('autoaim ent', [name, time])
+    }
+
+    return new Tool('autoaim ent', [name])
+  }
+
   export function decel(speed: 'off' | `${number}ups`): Tool {
     return new Tool('decel', [speed]);
   }
 
   export interface CheckOptions {
-    pos: [number, number, number],
-    ang: [number, number]
+    pos?: [x: number, y: number, z: number],
+    ang?: [pitch: number, yaw: number],
+    posepsilon?: number,
+    angepsilon?: number,
   }
 
-  export function check(options: CheckOptions) {}
+  export function check(options: CheckOptions) {
+    const params = [];
+
+    if (options.pos) {
+      params.push('pos', ...options.pos);
+    }
+
+    if (options.ang) {
+      params.push('ang', ...options.ang);
+    }
+
+    if (options.posepsilon) {
+      params.push('posepsilon', options.posepsilon);
+    }
+
+    if (options.angepsilon) {
+      params.push('angepsilon', options.angepsilon);
+    }
+
+    return new Tool('check', params)
+  }
+
+
 }
